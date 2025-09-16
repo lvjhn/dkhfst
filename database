@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+
+SERVICE=$1
+
+bash docker-compose exec -it "$SERVICE" /bin/sh -c "
+  PGSSLMODE=verify-full \
+  PGSSLCERT=/home/postgres/certs/${SERVICE}.crt \
+  PGSSLKEY=/home/postgres/certs/${SERVICE}.key \
+  PGSSLROOTCERT=/home/postgres/certs/ca.crt \
+  psql -U user -d database
+"

@@ -1,0 +1,36 @@
+name: ${PROJECT_MODE}-${PROJECT_NAME} 
+
+services: 
+  # --- MAIN DATABASE CONFIGURATION --- # 
+  db-main: 
+    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_db-main
+    build: 
+      context: ./db-main
+      dockerfile: Dockerfile
+    restart: unless-stopped 
+    env_file:
+      - ../../.env 
+      - .env
+    user: root 
+    command: sh /home/postgres/main/start.sh
+    volumes: 
+      - db-main:/var/lib/postgres/data
+      - ./@certs:/home/postgres/raw-certs
+      - ./db-main:/home/postgres/main
+      - ../../:/home/postgres/context
+    networks: 
+      - project
+
+# --- SETUP NETWORKS --- #
+networks:
+  project:
+    driver: bridge
+
+# --- SETUP VOLUMES --- # 
+volumes: 
+  db-main:  
+    driver: local 
+  db-cache: 
+    driver: local 
+  db-queue: 
+    driver: local

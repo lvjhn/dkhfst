@@ -1,0 +1,17 @@
+#!/bin/bash
+source .env
+source .khfst/${PROJECT_MODE}/.env
+
+# PROCESS ARGUMENTS #
+for i in "$@"; do
+    if [[ "$i" == "--" ]]; then
+        break
+    fi
+done
+
+# RUN COMMAND # 
+sudo docker compose \
+    --env-file .env \
+    --env-file .khfst/${PROJECT_MODE}/.env \
+    --file ./.khfst/${PROJECT_MODE}/docker-compose.yml \
+    "$@"
