@@ -36,7 +36,7 @@ services:
     volumes: 
       - db-cache:/var/lib/postgres/data
       - ./@certs:/home/postgres/raw-certs
-      - ./db-main:/home/postgres/main
+      - ./db-cache:/home/postgres/main
       - ../../:/home/postgres/context
     networks: 
       - project
@@ -56,7 +56,7 @@ services:
     volumes: 
       - db-queue:/var/lib/postgres/data
       - ./@certs:/home/postgres/raw-certs
-      - ./db-main:/home/postgres/main
+      - ./db-queue:/home/postgres/main
       - ../../:/home/postgres/context
     networks: 
       - project
