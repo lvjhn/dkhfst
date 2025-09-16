@@ -14,10 +14,10 @@ services:
     user: root 
     command: sh /home/postgres/main/start.sh
     volumes: 
-      - db-main:/var/lib/postgres/data
-      - ./@certs:/home/postgres/raw-certs
-      - ./db-main:/home/postgres/main
       - ../../:/home/postgres/context
+      - db-main:/var/lib/postgres/data
+      - ./db-main:/home/postgres/main
+      - ./@certs:/home/postgres/raw-certs
     networks: 
       - project
 
@@ -34,10 +34,10 @@ services:
     user: root 
     command: sh /home/postgres/main/start.sh
     volumes: 
-      - db-cache:/var/lib/postgres/data
-      - ./@certs:/home/postgres/raw-certs
-      - ./db-cache:/home/postgres/main
       - ../../:/home/postgres/context
+      - db-cache:/var/lib/postgres/data
+      - ./db-cache:/home/postgres/main
+      - ./@certs:/home/postgres/raw-certs
     networks: 
       - project
 
@@ -54,11 +54,84 @@ services:
     user: root 
     command: sh /home/postgres/main/start.sh
     volumes: 
-      - db-queue:/var/lib/postgres/data
-      - ./@certs:/home/postgres/raw-certs
-      - ./db-queue:/home/postgres/main
       - ../../:/home/postgres/context
+      - db-queue:/var/lib/postgres/data
+      - ./db-queue:/home/postgres/main
+      - ./@certs:/home/postgres/raw-certs
     networks: 
+      - project
+
+  # --- SET UP PGADMIN --- # 
+  pgadmin: 
+    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_pgadmin
+    build: 
+      context: ./pgadmin
+      dockerfile: Dockerfile
+    env_file:
+      - ../../.env 
+      - .env
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin    
+    depends_on: 
+      - db-main
+      - db-queue 
+      - db-cache
+    volumes:
+      - ../../:/home/pgadmin/context
+      - pgadmin-data:/var/lib/pgadmin
+      - ./pgadmin:/home/pgadmin/main
+      - ./@certs/pgadmin.crt:/certs/server.cert
+      - ./@certs/pgadmin.key:/certs/server.key
+    networks: 
+      - project
+
+  pgadmin-proxy: 
+    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_pgadmin-proxy
+    env_file:
+      - ../../.env 
+      - .env
+    image: nginx:alpine
+    volumes:
+      - ./pgadmin/site.conf:/etc/nginx/conf.d/default.conf
+      - ./@certs:/certs
+    depends_on:
+      - pgadmin
+    networks:
+      - project
+
+  # --- SET UP MAILPIT --- # 
+  mailpit: 
+    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_mailpit
+    build: 
+      context: ./mailpit
+      dockerfile: Dockerfile
+    env_file:
+      - ../../.env 
+      - .env
+    environment:
+      MAILPIT_UI_BIND: 0.0.0.0:8025 
+      MAILPIT_SMTP_BIND: 0.0.0.0:1025 # SMTP service
+    volumes:
+      - ../../:/home/pgadmin/context
+      - mailpit-data:/data
+      - ./mailpit:/home/mailpit/main
+      - ./@certs:/certs
+    networks: 
+      - project
+
+  mailpit-proxy: 
+    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_mailpit-proxy
+    env_file:
+      - ../../.env 
+      - .env
+    image: nginx:alpine
+    volumes:
+      - ./mailpit/site.conf:/etc/nginx/conf.d/default.conf
+      - ./@certs:/certs
+    depends_on:
+      - mailpit
+    networks:
       - project
 
 # --- SETUP NETWORKS --- #
@@ -73,4 +146,8 @@ volumes:
   db-cache: 
     driver: local 
   db-queue: 
+    driver: local
+  pgadmin-data: 
+    driver: local
+  mailpit-data:
     driver: local

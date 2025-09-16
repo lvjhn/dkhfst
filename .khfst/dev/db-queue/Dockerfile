@@ -1,4 +1,4 @@
-# --- load PostgresSQL image
+# --- load image
 FROM postgres:15
 
 # --- switch to root user 

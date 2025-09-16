@@ -1,16 +1,18 @@
 #!/bin/bash
 set -e
 
+# --- setup certificates
 cp /home/postgres/raw-certs/* /home/postgres/certs/
 chown postgres:postgres /home/postgres/certs/*
 chmod 600 /home/postgres/certs/*.key
 chmod 644 /home/postgres/certs/*.crt
 
+# --- setup environment variables
 export POSTGRES_DB=$QUEUE_DB_NAME
 export POSTGRES_USER=$QUEUE_DB_USER
 export POSTGRES_PASSWORD=$QUEUE_DB_PASSWORD
 
-# Start postgres in background
+# --- start postgres
 docker-entrypoint.sh postgres \
   -c ssl=on \
   -c ssl_cert_file=/home/postgres/certs/db-queue.crt \
