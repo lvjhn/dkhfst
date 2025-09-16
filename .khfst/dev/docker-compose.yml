@@ -21,6 +21,46 @@ services:
     networks: 
       - project
 
+  # --- CACHE DATABASE CONFIGURATION --- # 
+  db-cache: 
+    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_db-cache
+    build: 
+      context: ./db-cache
+      dockerfile: Dockerfile
+    restart: unless-stopped 
+    env_file:
+      - ../../.env 
+      - .env
+    user: root 
+    command: sh /home/postgres/main/start.sh
+    volumes: 
+      - db-cache:/var/lib/postgres/data
+      - ./@certs:/home/postgres/raw-certs
+      - ./db-main:/home/postgres/main
+      - ../../:/home/postgres/context
+    networks: 
+      - project
+
+  # --- QUEUE DATABASE CONFIGURATION --- # 
+  db-queue: 
+    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_db-queue
+    build: 
+      context: ./db-queue
+      dockerfile: Dockerfile
+    restart: unless-stopped 
+    env_file:
+      - ../../.env 
+      - .env
+    user: root 
+    command: sh /home/postgres/main/start.sh
+    volumes: 
+      - db-queue:/var/lib/postgres/data
+      - ./@certs:/home/postgres/raw-certs
+      - ./db-main:/home/postgres/main
+      - ../../:/home/postgres/context
+    networks: 
+      - project
+
 # --- SETUP NETWORKS --- #
 networks:
   project:
