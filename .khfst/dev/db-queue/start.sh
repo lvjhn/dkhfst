@@ -8,9 +8,9 @@ chmod 600 /home/postgres/certs/*.key
 chmod 644 /home/postgres/certs/*.crt
 
 # --- setup environment variables
-export POSTGRES_DB=$QUEUE_DB_NAME
-export POSTGRES_USER=$QUEUE_DB_USER
-export POSTGRES_PASSWORD=$QUEUE_DB_PASSWORD
+export POSTGRES_DB=$DB_QUEUE_NAME
+export POSTGRES_USER=$DB_QUEUE_USER
+export POSTGRES_PASSWORD=$DB_QUEUE_PASSWORD
 
 # --- start postgres
 docker-entrypoint.sh postgres \

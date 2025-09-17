@@ -40,5 +40,6 @@ issue_certificate ws-api            realtime.${PROJECT_NAME}.local
 # --- TOOLS --- # 
 issue_certificate pgadmin           pgadmin.${PROJECT_NAME}.local 
 issue_certificate mailpit           mailpit.${PROJECT_NAME}.local
+issue_certificate adminer           adminer.${PROJECT_NAME}.local 
 
 echo "✅ All certificates generated."

@@ -61,42 +61,29 @@ services:
     networks: 
       - project
 
-  # --- SET UP PGADMIN --- # 
-  pgadmin: 
-    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_pgadmin
+  # --- SET UP ADMINER --- # 
+  adminer:
     build: 
-      context: ./pgadmin
+      context: ./adminer
       dockerfile: Dockerfile
-    env_file:
-      - ../../.env 
-      - .env
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@example.com
-      PGADMIN_DEFAULT_PASSWORD: admin    
-    depends_on: 
-      - db-main
-      - db-queue 
-      - db-cache
-    volumes:
-      - ../../:/home/pgadmin/context
-      - pgadmin-data:/var/lib/pgadmin
-      - ./pgadmin:/home/pgadmin/main
-      - ./@certs/pgadmin.crt:/certs/server.cert
-      - ./@certs/pgadmin.key:/certs/server.key
-    networks: 
+    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_adminer
+    volumes: 
+      - ./adminer/app:/var/www/html/
+    networks:
       - project
 
-  pgadmin-proxy: 
-    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_pgadmin-proxy
+  adminer-proxy: 
+    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_adminer-proxy
     env_file:
       - ../../.env 
       - .env
     image: nginx:alpine
     volumes:
-      - ./pgadmin/site.conf:/etc/nginx/conf.d/default.conf
+      - ./adminer/app:/var/www/html/
+      - ./adminer/site.conf:/etc/nginx/conf.d/default.conf
       - ./@certs:/certs
-    depends_on:
-      - pgadmin
+    depends_on: 
+      - adminer
     networks:
       - project
 
@@ -111,12 +98,9 @@ services:
       - .env
     environment:
       MAILPIT_UI_BIND: 0.0.0.0:8025 
-      MAILPIT_SMTP_BIND: 0.0.0.0:1025 # SMTP service
+      MAILPIT_SMTP_BIND: 0.0.0.0:1025
     volumes:
-      - ../../:/home/pgadmin/context
       - mailpit-data:/data
-      - ./mailpit:/home/mailpit/main
-      - ./@certs:/certs
     networks: 
       - project
 
@@ -146,8 +130,6 @@ volumes:
   db-cache: 
     driver: local 
   db-queue: 
-    driver: local
-  pgadmin-data: 
     driver: local
   mailpit-data:
     driver: local

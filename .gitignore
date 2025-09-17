@@ -1,0 +1,10 @@
+# --- password files
+**/*/*.pass
+
+# --- certificate and key files 
+**/*/*.crt 
+**/*/*.key
+
+# --- environment files
+.env
+**/*/.env 

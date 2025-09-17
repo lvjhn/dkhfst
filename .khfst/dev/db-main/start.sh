@@ -8,9 +8,9 @@ chmod 600 /home/postgres/certs/*.key
 chmod 644 /home/postgres/certs/*.crt
 
 # --- setup environment variables
-export POSTGRES_DB=$MAIN_DB_NAME
-export POSTGRES_USER=$MAIN_DB_USER
-export POSTGRES_PASSWORD=$MAIN_DB_PASSWORD
+export POSTGRES_DB=$DB_MAIN_NAME
+export POSTGRES_USER=$DB_MAIN_USER
+export POSTGRES_PASSWORD=$DB_MAIN_PASSWORD
 
 # --- start postgres
 docker-entrypoint.sh postgres \
