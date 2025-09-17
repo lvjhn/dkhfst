@@ -1,6 +1,8 @@
 
+ARG ADMINER_PHP_VERSION
+
 # --- load image
-FROM php:8.2-fpm-bullseye
+FROM $ADMINER_PHP_VERSION
 
 # --- set working directory
 WORKDIR /var/www/html

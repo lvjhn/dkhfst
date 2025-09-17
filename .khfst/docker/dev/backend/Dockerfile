@@ -1,5 +1,7 @@
+ARG BACKEND_PHP_VERSION
+
 # --- load image
-FROM php:8.2-fpm
+FROM $BACKEND_PHP_VERSION
 
 # --- set working directory
 WORKDIR /var/www/html
@@ -32,7 +34,7 @@ RUN docker-php-ext-install \
     bcmath \
     gd
 
-# --- install Composer
+# --- install composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # --- expose port 8000

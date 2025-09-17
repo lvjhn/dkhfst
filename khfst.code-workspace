@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "source/frontend-web"
+		},
+		{
+			"path": "source/frontend-mobile"
+		},
+		{
+			"path": "source/backend"
+		},
+		{
+			"path": "../../../../Archives/lv-template"
+		},
+		{
+			"path": "../../../../Archives/midst-lv-template"
+		}
+	],
+	"settings": {}
+}

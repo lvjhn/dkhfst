@@ -1,5 +1,7 @@
+ARG DB_QUEUE_VERSION
+
 # --- load image
-FROM postgres:15
+FROM $DB_QUEUE_VERSION
 
 # --- switch to root user 
 USER root

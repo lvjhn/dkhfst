@@ -1,5 +1,7 @@
+ARG MAILPIT_VERSION
+
 # --- load image
-FROM axllent/mailpit:latest 
+FROM $MAILPIT_VERSION
 
 # --- switch to root user 
 USER root

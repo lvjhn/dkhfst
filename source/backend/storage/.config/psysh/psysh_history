@@ -1,0 +1,21 @@
+dispatch(function () {
+    \Log::info('🧪 Test job executed');
+    echo "Job ran!\n";
+});
+dispatch(function () {
+    \Log::info('🧪 Test job executed');
+    echo "Job ran!\n";
+});
+dispatch(function () {
+    \Log::info('🧪 Test job executed');
+    echo "Job ran!\n";
+});
+dispatch(function () {
+    \Log::info('🧪 Test job executed');
+    echo "Job ran!\n";
+});
+
+use Illuminate\Support\Facades\Bus;
+
+php artisan make:job TestJob
+

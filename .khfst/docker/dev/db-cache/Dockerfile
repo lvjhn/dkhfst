@@ -1,5 +1,7 @@
+ARG DB_CACHE_VERSION
+
 # --- load PostgresSQL image
-FROM postgres:15
+FROM $DB_CACHE_VERSION
 
 # --- switch to root user 
 USER root

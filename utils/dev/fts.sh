@@ -48,6 +48,9 @@ function install_dependencies() {
 }
 
 function fix_permissions() {
+    echo ":: Fixing host permissions." 
+    bash utils/dev/fix-permissions.sh
+
     echo ":: Fixing permissions in backend." 
     bash docker-compose up -d backend 
     bash docker-compose exec --user root backend \

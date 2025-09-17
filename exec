@@ -1,0 +1,6 @@
+#!/bin/bash
+#!/bin/bash
+
+# $1 = container name
+# $2..$n = command and arguments to run inside container
+bash docker-compose exec --user root "$1" "${@:2}"
