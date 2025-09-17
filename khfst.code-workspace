@@ -11,12 +11,6 @@
 		},
 		{
 			"path": "source/backend"
-		},
-		{
-			"path": "../../../../Archives/lv-template"
-		},
-		{
-			"path": "../../../../Archives/midst-lv-template"
 		}
 	],
 	"settings": {}
