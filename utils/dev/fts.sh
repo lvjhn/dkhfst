@@ -2,7 +2,7 @@
 # FIRST TIME SET-UP SCRIPT
 # 
 source .env
-source .khfst/docker/$PROJECT_MODE/.env
+source .dkhfst/docker/$PROJECT_MODE/.env
 
 function uncreate_containers() {
     bash docker-compose down -v

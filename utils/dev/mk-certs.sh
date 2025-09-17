@@ -5,7 +5,7 @@ source .env
 
 # --- set up certificates directory
 echo ":: Setting up certificates directory."
-CERTS_DIR="./.khfst/docker/dev/@certs"
+CERTS_DIR="./.dkhfst/docker/dev/@certs"
 mkdir -p "$CERTS_DIR"
 
 # --- copy root CA 
