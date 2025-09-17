@@ -10,9 +10,12 @@ function uncreate_containers() {
 
 function clear_certain_folders() {
     echo ":: Clearing certain folders."
-    sudo rm -rf ./source/backend/vendor/*
-    sudo rm -rf ./source/frontend-web/node_modules/* 
-    sudo rm -rf ./source/frontend-mobile/node_modules/*
+    sudo rm -rf ./source/backend/vendor/
+    sudo rm -rf ./source/frontend-web/node_modules/
+    sudo rm -rf ./source/frontend-mobile/node_modules/
+    mkdir ./source/backend/vendor/
+    mkdir ./source/frontend-web/node_modules/
+    mkdir ./source/frontend-mobile/node_modules/
 }
 
 function make_certificates() {
@@ -32,6 +35,16 @@ function install_dependencies() {
     bash docker-compose exec --user root backend composer install
     bash docker-compose exec --user root backend php artisan key:generate
     bash docker-compose stop backend
+
+    echo ":: Installing frontend (web) dependencies." 
+    bash docker-compose up -d frontend-web
+    bash docker-compose exec --user root frontend-web npm install
+    bash docker-compose stop frontend-web
+
+    echo ":: Installing frontend (mobile) dependencies." 
+    bash docker-compose up -d frontend-mobile
+    bash docker-compose exec --user root frontend-mobile npm install
+    bash docker-compose stop frontend-mobile
 }
 
 function fix_permissions() {
