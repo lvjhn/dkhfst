@@ -1,6 +1,6 @@
 #!/bin/bash
 source .env
-source .khfst/${PROJECT_MODE}/.env
+source .khfst/docker/${PROJECT_MODE}/.env
 
 # PROCESS ARGUMENTS #
 for i in "$@"; do
@@ -12,6 +12,6 @@ done
 # RUN COMMAND # 
 sudo docker compose \
     --env-file .env \
-    --env-file .khfst/${PROJECT_MODE}/.env \
-    --file ./.khfst/${PROJECT_MODE}/docker-compose.yml \
+    --env-file .khfst/docker/${PROJECT_MODE}/.env \
+    --file ./.khfst/docker/${PROJECT_MODE}/docker-compose.yml \
     "$@"
