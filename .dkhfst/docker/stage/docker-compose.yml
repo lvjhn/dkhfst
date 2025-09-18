@@ -68,20 +68,20 @@ services:
       - project
 
   # --- SET UP ADMINER --- # 
-  adminer:
+  adminer-server:
     build: 
       context: ./adminer
       dockerfile: Dockerfile
       args: 
         ADMINER_PHP_VERSION: ${ADMINER_PHP_VERSION}
-    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_adminer
+    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_adminer-server
     volumes: 
       - ./adminer/app:/var/www/html/
     networks:
       - project
 
-  adminer-proxy: 
-    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_adminer-proxy
+  adminer: 
+    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_adminer
     env_file:
       - ../../../.env 
       - .env
@@ -91,13 +91,13 @@ services:
       - ./adminer/site.conf:/etc/nginx/conf.d/default.conf
       - ./@certs:/certs
     depends_on: 
-      - adminer
+      - adminer-server
     networks:
       - project
 
   # --- SET UP MAILPIT --- # 
-  mailpit: 
-    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_mailpit
+  mailpit-server: 
+    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_mailpit-server
     build: 
       context: ./mailpit
       dockerfile: Dockerfile
@@ -114,8 +114,8 @@ services:
     networks: 
       - project
 
-  mailpit-proxy: 
-    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_mailpit-proxy
+  mailpit: 
+    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_mailpit
     env_file:
       - ../../../.env 
       - .env
@@ -124,13 +124,13 @@ services:
       - ./mailpit/site.conf:/etc/nginx/conf.d/default.conf
       - ./@certs:/certs
     depends_on:
-      - mailpit
+      - mailpit-server
     networks:
       - project
 
   # --- SET UP BACKEND --- # 
-  backend: 
-    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_backend
+  backend-ds: 
+    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_backend-ds
     env_file:
       - ../../../.env 
       - .env
@@ -152,8 +152,8 @@ services:
     networks:
       - project
 
-  backend-proxy: 
-    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_backend-proxy
+  backend: 
+    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_backend
     env_file:
       - ../../../.env 
       - .env
@@ -162,7 +162,7 @@ services:
       - ./backend/site.conf:/etc/nginx/conf.d/default.conf
       - ./@certs:/certs
     depends_on:
-      - backend
+      - backend-ds
     networks:
       - project
 
@@ -190,8 +190,8 @@ services:
       - project
       
   # --- SET UP FRONTEND (WEB) --- # 
-  frontend-web: 
-    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_frontend-web
+  frontend-web-ds: 
+    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_frontend-web-ds
     env_file:
       - ../../../.env 
       - .env
@@ -210,8 +210,8 @@ services:
     networks:
       - project
   
-  frontend-web-proxy: 
-    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_frontend-web-proxy
+  frontend-web: 
+    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_frontend-web
     env_file:
       - ../../../.env 
       - .env
@@ -220,13 +220,13 @@ services:
       - ./frontend-web/site.conf:/etc/nginx/conf.d/default.conf
       - ./@certs:/certs
     depends_on:
-      - frontend-web
+      - frontend-web-ds
     networks:
       - project
 
   # --- SET UP FRONTEND (MOBILE) --- # 
-  frontend-mobile: 
-    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_frontend-mobile
+  frontend-mobile-ds: 
+    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_frontend-mobile-ds
     env_file:
       - ../../../.env 
       - .env
@@ -245,8 +245,8 @@ services:
     networks:
       - project
   
-  frontend-mobile-proxy: 
-    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_frontend-mobile-proxy
+  frontend-mobile: 
+    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_frontend-mobile
     env_file:
       - ../../../.env 
       - .env
@@ -255,13 +255,13 @@ services:
       - ./frontend-mobile/site.conf:/etc/nginx/conf.d/default.conf
       - ./@certs:/certs
     depends_on:
-      - frontend-web
+      - frontend-mobile-ds
     networks:
       - project
 
   # --- SET UP WEBSOCKETS --- # 
-  websockets: 
-    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_websockets
+  websockets-server: 
+    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_websockets-server
     env_file:
       - ../../../.env 
       - .env
@@ -282,8 +282,8 @@ services:
     networks:
       - project
 
-  websockets-proxy: 
-    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_websockets-proxy
+  websockets: 
+    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_websockets
     env_file:
       - ../../../.env 
       - .env
@@ -292,7 +292,7 @@ services:
       - ./websockets/site.conf:/etc/nginx/conf.d/default.conf
       - ./@certs:/certs
     depends_on:
-      - websockets
+      - websockets-server
     networks:
       - project      
 

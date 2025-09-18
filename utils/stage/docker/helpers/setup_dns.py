@@ -19,7 +19,7 @@ subdomain_mapping = json.load(open("./.dkhfst/dns/mapping.json"))
 
 # --- print dns configuration
 conf = ""
-conf += f"address=/.{project_name}{EXTENSION}/{ip_mapping["frontend-web-proxy"]}\n"
+conf += f"address=/.{project_name}{EXTENSION}/{ip_mapping["frontend-web"]}\n"
 for subdomain in subdomain_mapping: 
     service = subdomain_mapping[subdomain]
     mid = "."
