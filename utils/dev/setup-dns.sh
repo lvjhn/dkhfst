@@ -31,9 +31,9 @@ if [ -f "$DNS_CONF" ]; then
     NEW_SUM=$(md5sum "$TMP_CONF" | awk '{print $1}')
     if [ "$OLD_SUM" != "$NEW_SUM" ]; then
         UPDATE_NEEDED=true
-        echo "ℹ️ DNS config has changed, updating..."
+        echo "ℹ️  DNS config has changed, updating..."
     else
-        echo "✅ DNS config unchanged, no update needed."
+        echo "✅  DNS config unchanged, no update needed."
     fi
 else
     UPDATE_NEEDED=true

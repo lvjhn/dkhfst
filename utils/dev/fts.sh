@@ -61,7 +61,7 @@ function fix_permissions() {
 }
 
 function wait_for_db() {
-    sudo docker compose exec $1 sh -c '
+    bash docker-compose exec $1 sh -c '
         until pg_isready; 
             do sleep 2; 
         done
