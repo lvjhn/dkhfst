@@ -1,0 +1,11 @@
+{
+    ""                : "frontend-web-proxy", 
+    "m"               : "frontend-mobile-proxy",
+    "api"             : "backend-proxy", 
+    "realtime"        : "websockets-proxy", 
+    "db-main"         : "db-main", 
+    "db-queue"        : "db-queue", 
+    "db-cache"        : "db-cache", 
+    "mailpit"         : "mailpit-proxy", 
+    "adminer"         : "adminer-proxy"
+}

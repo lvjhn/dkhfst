@@ -5,14 +5,14 @@ source .env
 
 # --- set up certificates directory
 echo ":: Setting up certificates directory."
-CERTS_DIR="./.dkhfst/docker/dev/@certs"
+CERTS_DIR="./.dkhfst/docker/stage/@certs"
 mkdir -p "$CERTS_DIR"
 
 # --- copy root CA 
 echo ":: Copying root CA certificate."
 CAROOT=$(mkcert -CAROOT)
-cp "$CAROOT/rootCA.pem" "$CERTS_DIR/ca.crt"
-cp "$CAROOT/rootCA-key.pem" "$CERTS_DIR/ca.key"
+sudo cp "$CAROOT/rootCA.pem" "$CERTS_DIR/ca.crt"
+sudo cp "$CAROOT/rootCA-key.pem" "$CERTS_DIR/ca.key"
 
 # --- function to issue certificates ---
 function issue_certificate() {
@@ -27,19 +27,18 @@ function issue_certificate() {
 }
 
 # --- DATABASES --- #
-issue_certificate db-main           db-main 
-issue_certificate db-main           db-cache 
-issue_certificate db-queue          db-queue 
+issue_certificate db-main           db-main  db-main.${PROJECT_NAME}.test
+issue_certificate db-cache          db-cache db-cache.${PROJECT_NAME}.test
+issue_certificate db-queue          db-queue db-queue.${PROJECT_NAME}.test
 
 # --- ENDPOINTS --- # 
-issue_certificate frontend-web      m.${PROJECT_NAME}.local 
-issue_certificate frontend-mobile   ${PROJECT_NAME}.local 
-issue_certificate http-api          api.${PROJECT_NAME}.local 
-issue_certificate ws-api            realtime.${PROJECT_NAME}.local
+issue_certificate frontend-web      "${PROJECT_NAME}.test" "*.${PROJECT_NAME}.test"
+issue_certificate frontend-mobile   m.${PROJECT_NAME}.test 
+issue_certificate http-api          api.${PROJECT_NAME}.test 
+issue_certificate ws-api            realtime.${PROJECT_NAME}.test
 
 # --- TOOLS --- # 
-issue_certificate pgadmin           pgadmin.${PROJECT_NAME}.local 
-issue_certificate mailpit           mailpit.${PROJECT_NAME}.local
-issue_certificate adminer           adminer.${PROJECT_NAME}.local 
+issue_certificate mailpit           mailpit.${PROJECT_NAME}.test
+issue_certificate adminer           adminer.${PROJECT_NAME}.test 
 
 echo "✅ All certificates generated."

@@ -1,4 +1,4 @@
 #!/bin/bash 
 source .env
-sudo docker inspect ${PROJECT_MODE}-${PROJECT_NAME}_project
+sudo docker inspect dev-${PROJECT_NAME}_project
 

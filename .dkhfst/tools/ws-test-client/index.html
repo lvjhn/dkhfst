@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Laravel Echo + Reverb Test</title>
+</head>
+<body>
+    <h1>Laravel Echo / Reverb Test</h1>
+    <pre id="log"></pre>
+
+    <!-- Pusher JS -->
+    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+    <!-- Laravel Echo -->
+    <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.11.2/dist/echo.iife.js"></script>
+
+    <script>
+        function log(msg) {
+            console.log(msg);
+            document.getElementById('log').textContent += msg + "\n";
+        }
+
+        // Create Echo instance
+        const echo = new Echo({
+            broadcaster: 'pusher',
+            key: 'app-key',   // REVERB_APP_KEY
+            wsHost: '172.18.0.15',       // Replace with your host
+            wsPort: 443,
+            forceTLS: true,
+            disableStats: true,
+            enabledTransports: ['ws', 'wss']
+        });
+
+        // Subscribe to channel
+        const channel = echo.channel('test-channel');
+
+        channel.subscribed(() => {
+            log('✅ Successfully subscribed to test-channel!');
+        });
+
+        // Listen for events
+        channel.listen('TestEvent', (e) => {
+            log('Received TestEvent: ' + JSON.stringify(e));
+        });
+
+        // Optional: connection state changes
+        echo.connector.pusher.connection.bind('state_change', (states) => {
+            log(`Connection state: ${states.previous} → ${states.current}`);
+        });
+
+        // Optional: handle errors
+        echo.connector.pusher.connection.bind('error', (err) => {
+            log('❌ WebSocket error: ' + JSON.stringify(err));
+        });
+    </script>
+</body>
+</html>
