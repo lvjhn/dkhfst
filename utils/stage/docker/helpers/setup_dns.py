@@ -15,7 +15,7 @@ result = subprocess.run(command, capture_output=True, text=True)
 ip_mapping = json.loads(result.stdout)
 
 # --- get subdomain mapping 
-subdomain_mapping = json.load(open("./.dkhfst/dns/mapping.json"))
+subdomain_mapping = json.load(open("./.dkhfst/dns/mapping.stage.json"))
 
 # --- print dns configuration
 conf = ""

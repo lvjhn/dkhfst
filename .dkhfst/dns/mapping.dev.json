@@ -6,6 +6,6 @@
     "db"              : "db-main", 
     "db-queue"        : "db-queue", 
     "db-cache"        : "db-cache", 
-    "mailpit"         : "mailpit-server", 
+    "mailpit"            : "mailpit-server", 
     "adminer"         : "adminer-server"
 }

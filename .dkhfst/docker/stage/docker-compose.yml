@@ -98,7 +98,7 @@ services:
   # --- SET UP MAILPIT --- # 
   mailpit: 
     container_name: ${PROJECT_MODE}_${PROJECT_NAME}_mailpit
-    build: 
+    build:
       context: ./mailpit
       dockerfile: Dockerfile
       args: 
@@ -109,6 +109,8 @@ services:
     environment:
       MAILPIT_UI_BIND: 0.0.0.0:8025 
       MAILPIT_SMTP_BIND: 0.0.0.0:1025
+      SMTP_TLS_CERT: certs/mailpit.crt
+      SMTP_TLS_KEY: /certs/mailpit.key
     volumes:
       - mailpit-data:/data
     networks: 
@@ -126,6 +128,30 @@ services:
     depends_on:
       - mailpit
     networks:
+      - project
+
+  # --- SET UP POSTFIX --- # 
+  postfix-server: 
+    build: 
+      context: ./postfix
+      dockerfile: Dockerfile
+      args: 
+        POSTFIX_DEBIAN_VERSION: ${POSTFIX_DEBIAN_VERSION}
+    user: root
+    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_postfix-server
+    command: sh /home/app/main/start.sh
+    hostname: mail.example.com
+    environment:
+      - MAIL_DOMAIN=${PROJECT_NAME}.test
+      - RELAY_HOST=postfix.${PROJECT_NAME}.test:587
+      - RELAY_USER=${RELAY_USER}
+      - RELAY_PASSWORD=${RELAY_PASSWORD}
+    volumes:
+      - postfix-data:/var/spool/postfix
+      - ./@certs:/certs
+      - ./postfix:/home/app/main
+    restart: unless-stopped
+    networks: 
       - project
 
   # --- SET UP BACKEND --- # 
@@ -312,5 +338,7 @@ volumes:
     driver: local 
   db-queue: 
     driver: local
-  mailpit-data:
+  postfix-data:
+    driver: local
+  mailpit-data: 
     driver: local

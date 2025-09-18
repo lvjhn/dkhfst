@@ -38,7 +38,7 @@ issue_certificate http-api          api.${PROJECT_NAME}.test
 issue_certificate ws-api            realtime.${PROJECT_NAME}.test
 
 # --- TOOLS --- # 
-issue_certificate mailpit           mailpit.${PROJECT_NAME}.test
+issue_certificate postfix           postfix.${PROJECT_NAME}.test
 issue_certificate adminer           adminer.${PROJECT_NAME}.test 
 
 echo "✅ All certificates generated."
