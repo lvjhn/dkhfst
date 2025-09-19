@@ -102,10 +102,10 @@ services:
       context: ./mailpit
       dockerfile: Dockerfile
       args: 
-        MAILPIT_VERSION: ${MAILPIT_VERSION}
-        MAILPIT_AUTH: 1
-        MAILPIT_USER: ${MAILPIT_USER}
-        MAILPIT_PASSWORD: ${MAILPIT_PASSWORD}
+        MAILPIT_HTTP_USER: user       # Web UI username
+        MAILPIT_HTTP_PASS: password   # Web UI password
+        MAILPIT_SMTP_USER: user       # SMTP username (optional)
+        MAILPIT_SMTP_PASS: password   # SMTP password (optional)
     env_file:
       - ../../../.env 
       - .env
@@ -289,7 +289,6 @@ services:
 
   websockets-server: 
     container_name: ${PROJECT_MODE}_${PROJECT_NAME}_websockets-server
-    image: ${WEBSOCKETS_NGINX_VERSION}
     env_file:
       - ../../../.env 
       - .env

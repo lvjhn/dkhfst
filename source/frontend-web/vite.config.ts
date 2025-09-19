@@ -6,8 +6,9 @@ export default defineConfig({
   plugins: [vue()],
   server: {
     allowedHosts: [
-      ".local",
-      ".test"
+      ".lan",
+      ".test", 
+      ".stage"
     ]
   }
 })

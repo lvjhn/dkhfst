@@ -6,7 +6,7 @@ command = ["bash", "utils/dev/network-info.sh"]
 result = subprocess.run(command, capture_output=True, text=True)
 raw_info = result.stdout
 
-# --- get project domain name 
+# --- get project name name 
 command = ["bash", "utils/dev/prefix-name.sh"]
 result = subprocess.run(command, capture_output=True, text=True)
 project_name = result.stdout
