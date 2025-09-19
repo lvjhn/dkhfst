@@ -9,6 +9,7 @@
     "db-queue"        : "db-queue", 
     "db-cache"        : "db-cache", 
     "mailpit"         : "mailpit-server",
-    "mail"            : "postfix-server",
+    "mail"            : "exim-server",
+    "exim"            : "exim-server",
     "adminer"         : "adminer-server"
 }

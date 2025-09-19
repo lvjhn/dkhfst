@@ -6,6 +6,7 @@ source .env
 # --- set up certificates directory
 echo ":: Setting up certificates directory."
 CERTS_DIR="./.dkhfst/docker/prod/@certs"
+sudo rm -rf $CERTS_DIR
 mkdir -p "$CERTS_DIR"
 
 # --- copy root CA 
@@ -32,14 +33,13 @@ issue_certificate db-cache          db-cache ${PROJECT_DOMAIN_NAME}${PROJECT_DOM
 issue_certificate db-queue          db-queue ${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_PROD}
 
 # --- ENDPOINTS --- # 
-issue_certificate frontend-web      "${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_PROD}" "*.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_PROD}"
-issue_certificate frontend-mobile   "m.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_PROD}" "*.m.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_PROD}"
-issue_certificate http-api          api.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_PROD} 
-issue_certificate ws-api            realtime.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_PROD}
+issue_certificate frontend-web      frontend-web frontend-web-server "${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_PROD}" "*.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_PROD}"
+issue_certificate frontend-mobile   frontend-mobile frontend-mobile-server "m.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_PROD}" "*.m.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_PROD}"
+issue_certificate http-api          backend backend-server api.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_PROD} 
+issue_certificate ws-api            websockets websockets-server realtime.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_PROD}
 
 # --- TOOLS --- # 
-issue_certificate mailpit           mailpit.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_PROD}
-issue_certificate postfix           postfix.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_PROD}
-issue_certificate adminer           adminer.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_PROD} 
+issue_certificate mailpit           mailpit mailpit-server mailpit.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_PROD}
+issue_certificate adminer           adminer adminer-server adminer.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_PROD} 
 
 echo "✅ All certificates generated."

@@ -10,8 +10,6 @@ services:
       args: 
         DB_MAIN_VERSION: ${DB_MAIN_VERSION}
     restart: unless-stopped 
-    ports: 
-      - "1001:5432"
     env_file:
       - ../../../.env 
       - .env
@@ -58,8 +56,6 @@ services:
       args: 
         DB_QUEUE_VERSION: ${DB_QUEUE_VERSION}
     restart: unless-stopped 
-    ports: 
-      - "5434:5432"
     env_file:
       - ../../../.env 
       - .env

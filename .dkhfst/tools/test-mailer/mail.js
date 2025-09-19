@@ -3,9 +3,9 @@ const fs = require("fs")
 
 // SMTP transport configuration
 const transporter = nodemailer.createTransport({
-  host: "172.18.0.5",
-  port: 1025,
-  secure: false,       // true for STARTTLS/SMTPS
+  host: "mail.dkhfst-app.stage",
+  port: 465,
+  secure: true,       // true for STARTTLS/SMTPS
   tls: {
     rejectUnauthorized: false
   }
@@ -14,7 +14,7 @@ const transporter = nodemailer.createTransport({
 // Email details
 const mailOptions = {
   from: "sender@example.com",
-  to: "root@localhost.com",
+  to: "root@example.com",
   subject: "Test HTML Email from Node.js",
   text: "Hello, this is plain text.",
   html: "<h1>Hello!</h1><p>This is HTML content</p>"

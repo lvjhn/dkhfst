@@ -107,11 +107,13 @@ services:
     env_file:
       - ../../../.env 
       - .env
-    environment:
-      SMTP_TLS_CERT: certs/mailpit.crt
-      SMTP_TLS_KEY: /certs/mailpit.key
+    environment: 
+      - MP_SMTP_TLS_CERT=/certs/mailpit.crt
+      - MP_SMTP_TLS_KEY=/certs/mailpit.key
+      - MP_SMTP_REQUIRE_TLS=false
     volumes:
       - mailpit-data:/data
+      - ./@certs:/certs
     networks: 
       - project
 
@@ -127,6 +129,28 @@ services:
     depends_on:
       - mailpit
     networks:
+      - project
+
+  # --- SET UP EXIM --- # 
+  exim-server:
+    build:
+      context: ./exim
+      dockerfile: Dockerfile 
+      args: 
+        EXIM_UBUNTU_VERSION: ${EXIM_UBUNTU_VERSION}
+    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_exim-server
+    user: root
+    command: sh /home/exim/main/start.sh
+    volumes: 
+      - ./exim/exim.conf:/etc/exim4/exim4.conf
+      - exim-logs:/var/log/exim4
+      - exim-queue:/var/spool/exim4
+      - exim-certs:/home/exim/certs
+      - ./exim/:/home/exim/main
+      - ./@certs:/certs
+    depends_on:
+      - mailpit
+    networks: 
       - project
 
   # --- SET UP BACKEND --- # 
@@ -193,7 +217,7 @@ services:
     networks:
       - project
       
-   # --- SET UP FRONTEND (WEB) --- # 
+  # --- SET UP FRONTEND (WEB) --- # 
   frontend-web-server: 
     container_name: ${PROJECT_MODE}_${PROJECT_NAME}_frontend-web-server
     env_file:
@@ -279,4 +303,10 @@ volumes:
   postfix-data:
     driver: local
   mailpit-data: 
+    driver: local
+  exim-logs: 
+    driver: local 
+  exim-queue: 
+    driver: local
+  exim-certs:
     driver: local
