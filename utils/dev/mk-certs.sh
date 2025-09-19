@@ -27,18 +27,18 @@ function issue_certificate() {
 }
 
 # --- DATABASES --- #
-issue_certificate db-main           db-main  db-main.${PROJECT_NAME}.test
-issue_certificate db-cache          db-cache db-cache.${PROJECT_NAME}.test
-issue_certificate db-queue          db-queue db-queue.${PROJECT_NAME}.test
+issue_certificate db-main           db-main  db-main.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_DEV}
+issue_certificate db-cache          db-cache db-cache.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_DEV}
+issue_certificate db-queue          db-queue db-queue.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_DEV}
 
 # --- ENDPOINTS --- # 
-issue_certificate frontend-web      "${PROJECT_NAME}.test" "*.${PROJECT_NAME}.test"
-issue_certificate frontend-mobile   m.${PROJECT_NAME}.test 
-issue_certificate http-api          api.${PROJECT_NAME}.test 
-issue_certificate ws-api            realtime.${PROJECT_NAME}.test
+issue_certificate frontend-web      "${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_DEV}" "*.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_DEV}"
+issue_certificate frontend-mobile   "m.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_DEV}" "*.m.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_DEV}"
+issue_certificate http-api          api.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_DEV} 
+issue_certificate ws-api            realtime.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_DEV}
 
 # --- TOOLS --- # 
-issue_certificate mailpit           mailpit.${PROJECT_NAME}.test
-issue_certificate adminer           adminer.${PROJECT_NAME}.test 
+issue_certificate mailpit           mailpit.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_DEV}
+issue_certificate adminer           adminer.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_DEV} 
 
 echo "✅ All certificates generated."

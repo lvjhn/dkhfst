@@ -9,8 +9,15 @@ for i in "$@"; do
     fi
 done
 
-# RUN COMMAND # 
-sudo docker compose \
+# Determine whether to use sudo
+if command -v sudo >/dev/null 2>&1; then
+    DOCKER_CMD="sudo docker compose"
+else
+    DOCKER_CMD="docker compose"
+fi
+
+# RUN COMMAND
+$DOCKER_CMD \
     --env-file .env \
     --env-file .dkhfst/docker/${PROJECT_MODE}/.env \
     --file ./.dkhfst/docker/${PROJECT_MODE}/docker-compose.yml \

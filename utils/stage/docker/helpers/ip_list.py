@@ -6,12 +6,12 @@ command = ["bash", "utils/stage/docker/network-info.sh"]
 result = subprocess.run(command, capture_output=True, text=True)
 raw_info = result.stdout
 
-# --- get project name 
+# --- get project domain name 
 command = ["bash", "utils/stage/docker/prefix-name.sh"]
 result = subprocess.run(command, capture_output=True, text=True)
 project_name = result.stdout
 
-# --- get project name 
+# --- get project domain name 
 
 # --- transform to json
 info = json.loads(raw_info)

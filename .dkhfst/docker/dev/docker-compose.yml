@@ -286,6 +286,7 @@ services:
 
   websockets-server: 
     container_name: ${PROJECT_MODE}_${PROJECT_NAME}_websockets-server
+    image: ${WEBSOCKETS_NGINX_VERSION}
     env_file:
       - ../../../.env 
       - .env

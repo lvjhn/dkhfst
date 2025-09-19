@@ -8,11 +8,6 @@ function uncreate_containers() {
     bash docker-compose down -v 
 }
 
-function make_certificates() {
-    echo ":: Creating SSL certificates."
-    bash utils/stage/docker/mk-certs.sh
-} 
-
 function create_containers() {
     echo ":: Creating containers." 
     bash docker-compose create 
@@ -47,7 +42,6 @@ function start_containers() {
 
 function main() {
     uncreate_containers
-    make_certificates
     create_containers
     run_migrations
     start_containers

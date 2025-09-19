@@ -1,6 +1,8 @@
 {
     ""                : "frontend-web-server", 
+    "."               : "frontend-web-server",
     "m"               : "frontend-mobile-server",
+    ".m"              : "frontend-mobile-server",
     "api"             : "backend-server", 
     "realtime"        : "websockets-server", 
     "db"              : "db-main", 

@@ -10,6 +10,7 @@ services:
       args: 
         DB_MAIN_VERSION: ${DB_MAIN_VERSION}
     restart: unless-stopped 
+      
     env_file:
       - ../../../.env 
       - .env
@@ -185,6 +186,8 @@ services:
       - .env
     image: ${BACKEND_NGINX_VERSION}
     volumes:
+      - ../../../source/backend:/home/app/source
+      - ./backend:/home/app/main/
       - ./backend/site.conf:/etc/nginx/conf.d/default.conf
       - ./@certs:/certs
     depends_on:
@@ -216,27 +219,7 @@ services:
     networks:
       - project
       
-  # --- SET UP FRONTEND (WEB) --- # 
-  frontend-web: 
-    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_frontend-web
-    env_file:
-      - ../../../.env 
-      - .env
-    build: 
-      context: ./frontend-web
-      dockerfile: Dockerfile
-      args: 
-        FRONTEND_WEB_NODE_VERSION: ${FRONTEND_WEB_NODE_VERSION}
-    working_dir: /home/app/source
-    command: sh /home/app/main/start.sh
-    volumes: 
-      - ../../../source/frontend-web:/home/app/source
-      - ./frontend-web:/home/app/main/
-    depends_on: 
-      - backend-server
-    networks:
-      - project
-  
+   # --- SET UP FRONTEND (WEB) --- # 
   frontend-web-server: 
     container_name: ${PROJECT_MODE}_${PROJECT_NAME}_frontend-web-server
     env_file:
@@ -244,34 +227,15 @@ services:
       - .env
     image: ${FRONTEND_WEB_NGINX_VERSION}
     volumes:
+      - ../../../source/frontend-mobile:/home/app/source
       - ./frontend-web/site.conf:/etc/nginx/conf.d/default.conf
       - ./@certs:/certs
     depends_on:
-      - frontend-web
+      - backend-server
     networks:
       - project
 
   # --- SET UP FRONTEND (MOBILE) --- # 
-  frontend-mobile:
-    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_frontend-mobile
-    env_file:
-      - ../../../.env 
-      - .env
-    build: 
-      context: ./frontend-mobile
-      dockerfile: Dockerfile
-      args: 
-        FRONTEND_MOBILE_NODE_VERSION: ${FRONTEND_MOBILE_NODE_VERSION}
-    working_dir: /home/app/source
-    command: sh /home/app/main/start.sh
-    volumes: 
-      - ../../../source/frontend-mobile:/home/app/source
-      - ./frontend-mobile:/home/app/main/
-    depends_on: 
-      - backend-server
-    networks:
-      - project
-  
   frontend-mobile-server: 
     container_name: ${PROJECT_MODE}_${PROJECT_NAME}_frontend-mobile-server
     env_file:
@@ -279,10 +243,11 @@ services:
       - .env
     image: ${FRONTEND_MOBILE_NGINX_VERSION}
     volumes:
+      - ../../../source/frontend-mobile:/home/app/source
       - ./frontend-mobile/site.conf:/etc/nginx/conf.d/default.conf
       - ./@certs:/certs
     depends_on:
-      - frontend-mobile
+      - backend-server
     networks:
       - project
 
@@ -323,7 +288,6 @@ services:
       - websockets
     networks:
       - project      
-
 
 # --- SETUP NETWORKS --- #
 networks:

@@ -27,18 +27,19 @@ function issue_certificate() {
 }
 
 # --- DATABASES --- #
-issue_certificate db-main           db-main  db-main.${PROJECT_NAME}.test
-issue_certificate db-main           db-cache db-cache.${PROJECT_NAME}.test
-issue_certificate db-queue          db-queue db-queue.${PROJECT_NAME}.test
+issue_certificate db-main           db-main  ${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_STAGE}
+issue_certificate db-cache          db-cache ${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_STAGE}
+issue_certificate db-queue          db-queue ${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_STAGE}
 
 # --- ENDPOINTS --- # 
-issue_certificate frontend-web      "${PROJECT_NAME}.test" "*.${PROJECT_NAME}.test"
-issue_certificate frontend-mobile   m.${PROJECT_NAME}.test 
-issue_certificate http-api          api.${PROJECT_NAME}.test 
-issue_certificate ws-api            realtime.${PROJECT_NAME}.test
+issue_certificate frontend-web      "${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_STAGE}" "*.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_STAGE}"
+issue_certificate frontend-mobile   m.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_STAGE} 
+issue_certificate http-api          api.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_STAGE} 
+issue_certificate ws-api            realtime.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_STAGE}
 
 # --- TOOLS --- # 
-issue_certificate postfix           postfix.${PROJECT_NAME}.test
-issue_certificate adminer           adminer.${PROJECT_NAME}.test 
+issue_certificate postfix           postfix.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_STAGE}
+issue_certificate mailpit           mailpit.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_STAGE}
+issue_certificate adminer           adminer.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_STAGE} 
 
 echo "✅ All certificates generated."

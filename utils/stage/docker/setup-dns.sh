@@ -49,7 +49,7 @@ fi
 
 # --- Symlink to /etc/dnsmasq.d ---
 DNSMASQ_DIR="/etc/dnsmasq.d"
-sudo mkdir -p "$DNSMASQ_DIR"
+mkdir -p "$DNSMASQ_DIR"
 SYMLINK_TARGET="$DNSMASQ_DIR/dkhfst-ds.${PROJECT_NAME}.conf"
 
 if [ ! -L "$SYMLINK_TARGET" ] || [ "$UPDATE_NEEDED" = true ]; then

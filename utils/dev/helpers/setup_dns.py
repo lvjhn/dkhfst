@@ -2,12 +2,14 @@ import json
 import subprocess
 
 # --- extension 
-EXTENSION = ".local"
-
-# --- get project name
-command = ["bash", "utils/dev/project-name.sh"]
+command = ["bash", "utils/dev/dn-ext.sh"]
 result = subprocess.run(command, capture_output=True, text=True)
-project_name = result.stdout.strip()
+EXTENSION = result.stdout.strip()
+
+# --- get project domain name
+command = ["bash", "utils/dev/dn.sh"]
+result = subprocess.run(command, capture_output=True, text=True)
+project_dn = result.stdout.strip()
 
 # --- get ip mapping
 command = ["bash", "utils/dev/list-ips.sh"]
@@ -19,12 +21,11 @@ subdomain_mapping = json.load(open("./.dkhfst/dns/mapping.dev.json"))
 
 # --- print dns configuration
 conf = ""
-conf += f"address=/.{project_name}{EXTENSION}/{ip_mapping["frontend-web"]}\n"
 for subdomain in subdomain_mapping: 
     service = subdomain_mapping[subdomain]
     mid = "."
     if subdomain == "":
         mid = ""
-    conf += f"address=/{subdomain}{mid}{project_name}{EXTENSION}/{ip_mapping[service]}\n"
+    conf += f"address=/{subdomain}{mid}{project_dn}{EXTENSION}/{ip_mapping[service]}\n"
 
 print(conf)
