@@ -102,16 +102,14 @@ services:
       context: ./mailpit
       dockerfile: Dockerfile
       args: 
-        MAILPIT_HTTP_USER: user       # Web UI username
-        MAILPIT_HTTP_PASS: password   # Web UI password
-        MAILPIT_SMTP_USER: user       # SMTP username (optional)
-        MAILPIT_SMTP_PASS: password   # SMTP password (optional)
+        MAILPIT_VERSION: ${MAILPIT_VERSION}
+        MAILPIT_AUTH: 1
     env_file:
       - ../../../.env 
       - .env
     environment:
       MAILPIT_UI_BIND: 0.0.0.0:8025 
-      MAILPIT_SMTP_BIND: 0.0.0.0:1025
+      MAILPIT_SMTP_BIND: 0.0.0.0:1025S
     volumes:
       - mailpit-data:/data
     networks: 
