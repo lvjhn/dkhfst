@@ -100,31 +100,40 @@ services:
       - adminer
     networks:
       - project
-
-  # --- SET UP POSTFIX --- # 
-  postfix-server: 
-    build: 
-      context: ./postfix
+  
+  # --- SET UP MAILPIT --- # 
+  mailpit: 
+    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_mailpit
+    build:
+      context: ./mailpit
       dockerfile: Dockerfile
       args: 
-        POSTFIX_DEBIAN_VERSION: ${POSTFIX_DEBIAN_VERSION}
-    user: root
-    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_postfix-server
-    command: sh /home/app/main/start.sh
-    hostname: mail.example.com
-    ports: 
-      - "1025:25"
+        MAILPIT_VERSION: ${MAILPIT_VERSION}
+    env_file:
+      - ../../../.env 
+      - .env
     environment:
-      - MAIL_DOMAIN=${PROJECT_NAME}.test
-      - RELAY_HOST=postfix.${PROJECT_NAME}.test:587
-      - RELAY_USER=${RELAY_USER}
-      - RELAY_PASSWORD=${RELAY_PASSWORD}
+      MAILPIT_UI_BIND: 0.0.0.0:8025 
+      MAILPIT_SMTP_BIND: 0.0.0.0:1025
+      SMTP_TLS_CERT: certs/mailpit.crt
+      SMTP_TLS_KEY: /certs/mailpit.key
     volumes:
-      - postfix-data:/var/spool/postfix
-      - ./@certs:/certs
-      - ./postfix:/home/app/main
-    restart: unless-stopped
+      - mailpit-data:/data
     networks: 
+      - project
+
+  mailpit-server: 
+    container_name: ${PROJECT_MODE}_${PROJECT_NAME}_mailpit-server
+    env_file:
+      - ../../../.env 
+      - .env
+    image: ${MAILPIT_NGINX_VERSION}
+    volumes:
+      - ./mailpit/site.conf:/etc/nginx/conf.d/default.conf
+      - ./@certs:/certs
+    depends_on:
+      - mailpit
+    networks:
       - project
 
   # --- SET UP BACKEND --- # 
@@ -296,8 +305,6 @@ volumes:
   db-cache: 
     driver: local 
   db-queue: 
-    driver: local
-  postfix-data:
     driver: local
   mailpit-data: 
     driver: local

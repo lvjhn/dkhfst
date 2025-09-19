@@ -1,5 +1,6 @@
 # --- password files
 **/*/*.pass
+**/*/sasl_passwd
 
 # --- certificate and key files 
 **/*/*.crt 
@@ -8,3 +9,4 @@
 # --- environment files
 .env
 **/*/.env 
+

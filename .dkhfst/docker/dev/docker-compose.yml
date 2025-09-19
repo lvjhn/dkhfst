@@ -103,6 +103,9 @@ services:
       dockerfile: Dockerfile
       args: 
         MAILPIT_VERSION: ${MAILPIT_VERSION}
+        MAILPIT_AUTH: 1
+        MAILPIT_USER: ${MAILPIT_USER}
+        MAILPIT_PASSWORD: ${MAILPIT_PASSWORD}
     env_file:
       - ../../../.env 
       - .env

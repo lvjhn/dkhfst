@@ -38,6 +38,7 @@ issue_certificate http-api          api.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_E
 issue_certificate ws-api            realtime.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_PROD}
 
 # --- TOOLS --- # 
+issue_certificate mailpit           mailpit.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_PROD}
 issue_certificate postfix           postfix.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_PROD}
 issue_certificate adminer           adminer.${PROJECT_DOMAIN_NAME}${PROJECT_DOMAIN_EXT_PROD} 
 

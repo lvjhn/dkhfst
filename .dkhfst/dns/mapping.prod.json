@@ -8,7 +8,6 @@
     "db"              : "db-main", 
     "db-queue"        : "db-queue", 
     "db-cache"        : "db-cache", 
-    "postfix"         : "postfix-server", 
     "mailpit"         : "mailpit-server",
     "mail"            : "postfix-server",
     "adminer"         : "adminer-server"
