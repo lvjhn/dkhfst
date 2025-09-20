@@ -6,7 +6,7 @@ const transporter = nodemailer.createTransport({
   host: "mail.dkhfst-app.stage",
   port: 465,
   auth: {
-    user: "user@example.com",
+    user: "user",
     pass: "password"
   },  
   secure: true,       // true for STARTTLS/SMTPS
