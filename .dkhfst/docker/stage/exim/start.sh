@@ -4,6 +4,11 @@
 chown root:Debian-exim /etc/exim4/exim4.conf
 chmod 644 /etc/exim4/exim4.conf
 
+chown root:Debian-exim /etc/exim4/username.id
+chown root:Debian-exim /etc/exim4/username.key
+chmod 644 /etc/exim4/auth/username.id
+chmod 644 /etc/exim4/auth/password.key
+
 # Helper function to copy if changed
 copy_if_changed() {
     src="$1"

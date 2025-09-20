@@ -1,6 +1,7 @@
 # --- password files
 **/*/*.pass
-**/*/sasl_passwd
+**/*/*.key
+
 
 # --- certificate and key files 
 **/*/*.crt 

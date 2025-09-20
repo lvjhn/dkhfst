@@ -148,6 +148,7 @@ services:
       - exim-certs:/home/exim/certs
       - ./exim/:/home/exim/main
       - ./@certs:/certs
+      - ./exim/auth/:/etc/exim4/auth
     depends_on:
       - mailpit
     networks: 
