@@ -138,6 +138,9 @@ services:
       dockerfile: Dockerfile 
       args: 
         EXIM_UBUNTU_VERSION: ${EXIM_UBUNTU_VERSION}
+    env_file:
+      - ../../../.env 
+      - .env
     container_name: ${PROJECT_MODE}_${PROJECT_NAME}_exim-server
     user: root
     command: sh /home/exim/main/start.sh

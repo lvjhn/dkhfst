@@ -8,7 +8,8 @@ echo ":: Publishing Exim credentials ($MAIL_USER:$MAIL_PASSWORD)."
 rm -rf ./.dkhfst/docker/stage/exim/auth/
 mkdir -p ./.dkhfst/docker/stage/exim/auth/
 echo -n "$MAIL_USER" > ./.dkhfst/docker/stage/exim/auth/username.id
-echo -n "$MAIL_PASSWORD" > ./.dkhfst/docker/stage/exim/auth/password.key
+mkpasswd -m sha-512 "$MAIL_PASSWORD" | \
+    tr -d '\n' > ./.dkhfst/docker/stage/exim/auth/password.key
 
 # --- done 
 echo "DONE"
